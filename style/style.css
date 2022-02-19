@@ -1,0 +1,17 @@
+table,
+td {
+  /* border: 1px solid black; */
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  width: 400px;
+  height: 400px;
+  background-color: green;
+  border-spacing: 0;
+}
+
+.crt {
+  background-color: greenyellow;
+}
