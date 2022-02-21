@@ -24,6 +24,7 @@ let Game = class Game {
   constructor(gamesize, snakeLen, gameSpeed) {
     this.gamesize = gamesize;
     this.snake.len = snakeLen;
+    this.score = snakeLen;
     this.gameSpeed = gameSpeed;
   }
   tableEl = document.querySelector('#game');
@@ -81,6 +82,8 @@ let Game = class Game {
       console.log('chomp');
       this.snake.len += 5;
       this.placeMice();
+      this.score = this.snake.len;
+      document.querySelector('#score').innerText = this.score;
     }
   }
   gameOver() {
@@ -90,6 +93,8 @@ let Game = class Game {
       this.snake.bodyY = this.snake.bodyY.slice(1);
       this.updateTable();
     } else {
+      this.tableEl.innerHTML =
+        '<div class="gameOverContainer"><h1 class="gameOver">GAME OVER</h1></div>';
       clearInterval(this.gameOverInterval);
     }
   }
@@ -142,6 +147,7 @@ let Game = class Game {
         this.gameOver();
       }, 100);
     }
+    this.tableEl.style.height = this.tableEl.offsetWidth + 'px';
   }
   init() {
     this.createTable();
@@ -152,7 +158,7 @@ let Game = class Game {
     }, this.gameSpeed);
   }
 };
-snakeClass = new Game(50, 5, 20);
+snakeClass = new Game(100, 5, 50);
 snakeClass.init();
 document.body.addEventListener('keydown', function (e) {
   switch (e.keyCode) {

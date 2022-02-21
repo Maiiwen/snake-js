@@ -1,17 +1,50 @@
+@import url('http://fonts.cdnfonts.com/css/common-pixel');
+
+body {
+  background-color: greenyellow !important;
+  font-family: 'Common Pixel', sans-serif;
+}
+main {
+  margin-top: 8vh !important;
+}
 table,
 td {
-  /* border: 1px solid black; */
   margin: 0;
   padding: 0;
 }
 
 table {
-  width: 400px;
-  height: 400px;
+  width: 100%;
   background-color: green;
   border-spacing: 0;
 }
 
+h1.gameOver {
+  font-family: 'Common Pixel', sans-serif;
+  color: greenyellow;
+  text-align: center;
+  font-size: 1000%;
+}
+div.gameOverContainer {
+  height: inherit;
+  width: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .crt {
   background-color: greenyellow;
+}
+
+.bg-green {
+  background-color: rgb(19, 92, 19) !important;
+}
+
+.textGreenYellow {
+  color: greenyellow !important;
+}
+
+a.textGreenYellow:hover {
+  color: rgb(100, 161, 9) !important;
 }
