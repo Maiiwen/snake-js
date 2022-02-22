@@ -7,6 +7,8 @@ function getAllIndexes(arr, val) {
   return indexes;
 }
 
+let speed = 80;
+
 let Game = class Game {
   snake = {
     len: 0,
@@ -27,10 +29,12 @@ let Game = class Game {
     this.score = snakeLen;
     this.gameSpeed = gameSpeed;
   }
+
   tableEl = document.querySelector('#game');
   gamesize = 50;
   movX = 0;
   movY = 0;
+
   constructTable() {
     let table = [];
     for (let i = 0; i < this.gamesize; i++) {
@@ -41,6 +45,7 @@ let Game = class Game {
     }
     return table;
   }
+
   createTable() {
     this.table = this.constructTable();
     for (let i = 0; i < this.gamesize; i++) {
@@ -63,17 +68,20 @@ let Game = class Game {
       }
     }
   }
+
   placeMice() {
     this.mice.posX = Math.round(Math.random() * (this.gamesize - 1));
     this.mice.posY = Math.round(Math.random() * (this.gamesize - 1));
 
     this.table[this.mice.posX][this.mice.posY] = 100;
   }
+
   placeSnake() {
     let middle = Math.round(this.gamesize / 2);
     this.snake.headX = middle;
     this.snake.headY = middle;
   }
+
   isEating() {
     if (
       this.snake.headX == this.mice.posX &&
@@ -86,6 +94,7 @@ let Game = class Game {
       document.querySelector('#score').innerText = this.score;
     }
   }
+
   gameOver() {
     if (this.snake.bodyX.length > 0) {
       this.table[this.snake.bodyX[0]][this.snake.bodyY[0]] = 0;
@@ -125,6 +134,7 @@ let Game = class Game {
         console.log('gameOver');
         this.gameOverInterval = setInterval(() => {
           // console.log(this.movX, this.movY);
+          this.logScore();
           this.gameOver();
         }, this.gameSpeed);
       }
@@ -147,7 +157,6 @@ let Game = class Game {
         this.gameOver();
       }, 100);
     }
-    this.tableEl.style.height = this.tableEl.offsetWidth + 'px';
   }
   init() {
     this.createTable();
@@ -157,8 +166,13 @@ let Game = class Game {
       this.moveSnake(this.movX, this.movY);
     }, this.gameSpeed);
   }
+
+  logScore() {
+    document.querySelector('#addScoreForm').style.display = 'block';
+    document.querySelector('#hiddenInput').value = this.score;
+  }
 };
-snakeClass = new Game(100, 5, 50);
+snakeClass = new Game(50, 5, speed);
 snakeClass.init();
 document.body.addEventListener('keydown', function (e) {
   switch (e.keyCode) {
