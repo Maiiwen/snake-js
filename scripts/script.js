@@ -7,8 +7,6 @@ function getAllIndexes(arr, val) {
   return indexes;
 }
 
-let speed = 80;
-
 let Game = class Game {
   constructor(gamesize, snakeLen, mode) {
     this.snake = {};
@@ -71,9 +69,16 @@ let Game = class Game {
     for (let i = 0; i < this.gamesize; i++) {
       for (let j = 0; j < this.gamesize; j++) {
         this.tableEl.rows[i].cells[j].innerHTML = ' ';
-        if (this.table[i][j] !== 0) {
+        if (
+          this.table[i][j] !== 0 &&
+          !this.tableEl.rows[i].cells[j].classList.contains('crt')
+        ) {
           this.tableEl.rows[i].cells[j].classList.add('crt');
-        } else {
+        }
+        if (
+          this.table[i][j] === 0 &&
+          this.tableEl.rows[i].cells[j].classList.contains('crt')
+        ) {
           this.tableEl.rows[i].cells[j].classList.remove('crt');
         }
       }
@@ -98,7 +103,6 @@ let Game = class Game {
       this.snake.headX == this.mice.posX &&
       this.snake.headY == this.mice.posY
     ) {
-      console.log('chomp');
       this.snake.len += 5;
       this.placeMice();
       this.score = this.snake.len;
@@ -142,11 +146,9 @@ let Game = class Game {
         this.snake.bodyY.push(this.snake.headY);
       } else if (this.movX !== 0 || this.movY !== 0) {
         clearInterval(this.gameInterval);
-        console.log('gameOver');
         this.timeStop = new Date();
         this.logScore();
         this.gameOverInterval = setInterval(() => {
-          // console.log(this.movX, this.movY);
           this.gameOver();
         }, this.gameSpeed);
       }
@@ -164,7 +166,6 @@ let Game = class Game {
       this.updateTable();
     } else if (this.movX !== 0 || this.movY !== 0) {
       clearInterval(this.gameInterval);
-      console.log('gameOver');
       this.gameOverInterval = setInterval(() => {
         this.gameOver();
       }, 100);
@@ -181,7 +182,6 @@ let Game = class Game {
   getStartTime() {
     if (typeof this.timeStart === 'undefined') {
       this.timeStart = new Date();
-      console.log(this.timeStart);
     }
   }
 
@@ -190,7 +190,6 @@ let Game = class Game {
     document.querySelector('#hiddenInput1').value = this.score;
     let time =
       (this.timeStop.getTime() - snakeClass.timeStart.getTime()) / 1000;
-    console.log(time);
     document.querySelector('#hiddenInput2').value = time;
     document.querySelector('#hiddenInput3').value = this.mode;
   }
@@ -228,8 +227,13 @@ let playerName = document.querySelector('#playerName');
 let modeBtn = document.querySelector('#start');
 let addScoreButton = document.querySelector('#addScore');
 
-addScoreButton.addEventListener('click', function () {
-  if (playerName.value.length < 49 && playerName.value.length > 2) {
+addScoreButton.addEventListener('click', function (e) {
+  e.preventDefault();
+  if (
+    playerName.value.length < 49 &&
+    playerName.value.length > 2 &&
+    document.querySelector('#hiddenInput1').value == snakeClass.score
+  ) {
     addScoreButton.style.display = 'none';
     document
       .querySelector('#addScore')
@@ -243,7 +247,11 @@ modeBtn.addEventListener('click', function () {
 });
 
 playerName.addEventListener('input', function () {
-  if (playerName.value.length < 50 && playerName.value.length > 2) {
+  if (
+    playerName.value.length < 49 &&
+    playerName.value.length > 2 &&
+    document.querySelector('#hiddenInput1').value == snakeClass.score
+  ) {
     playerName.nextElementSibling.style.display = 'none';
   } else {
     playerName.nextElementSibling.style.display = 'inline';

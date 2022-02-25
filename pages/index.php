@@ -10,7 +10,7 @@
                         <div class="text-center">
                             <input class=" form-check-input" type="radio" name="gameMode" id="easy" value="easy">
                             <label for="gameMode">EASY</label>
-                            <input class="form-check-input" type="radio" name="gameMode" id="normal" value="normal" checked>
+                            <input class="form-check-input" type="radio" name="gameMode" id="normal" value="normal">
                             <label for="gameMode">NORMAL</label>
                             <input class="form-check-input" type="radio" name="gameMode" id="hard" value="hard">
                             <label for="gameMode">HARD</label>
@@ -61,4 +61,4 @@
     </div>
 </main>
 
-<script src="scripts/script.min.js"></script>
+<script src="scripts/script.min.obfuscated.js"></script>

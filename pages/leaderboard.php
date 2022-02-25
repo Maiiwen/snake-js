@@ -25,7 +25,9 @@ $hardcore = getTable('hardcore');
                         foreach ($easy as $value) : ?>
                             <tr>
                                 <td>#<?= $i ?></td>
-                                <td><?= $value['name'] ?></td>
+                                <td>
+                                    <pre> <?= strip_tags($value['name']) ?></pre>
+                                </td>
                                 <td><?= $value['score'] ?></td>
                                 <td><?= $value['timeRecord'] ?></td>
                             </tr>
@@ -34,6 +36,7 @@ $hardcore = getTable('hardcore');
                     endif; ?>
                 </table>
             </div>
+
             <div class="col-12 col-lg-6">
                 <h2>Normal</h2>
                 <table class="leaderboard">
@@ -49,7 +52,9 @@ $hardcore = getTable('hardcore');
                         foreach ($normal as $value) : ?>
                             <tr>
                                 <td>#<?= $i ?></td>
-                                <td><?= $value['name'] ?></td>
+                                <td>
+                                    <pre> <?= strip_tags($value['name']) ?></pre>
+                                </td>
                                 <td><?= $value['score'] ?></td>
                                 <td><?= $value['timeRecord'] ?></td>
                             </tr>
@@ -73,7 +78,9 @@ $hardcore = getTable('hardcore');
                         foreach ($hard as $value) : ?>
                             <tr>
                                 <td>#<?= $i ?></td>
-                                <td><?= $value['name'] ?></td>
+                                <td>
+                                    <pre> <?= strip_tags($value['name']) ?></pre>
+                                </td>
                                 <td><?= $value['score'] ?></td>
                                 <td><?= $value['timeRecord'] ?></td>
                             </tr>
@@ -97,7 +104,9 @@ $hardcore = getTable('hardcore');
                         foreach ($hardcore as $value) : ?>
                             <tr>
                                 <td>#<?= $i ?></td>
-                                <td><?= $value['name'] ?></td>
+                                <td>
+                                    <pre> <?= strip_tags($value['name']) ?></pre>
+                                </td>
                                 <td><?= $value['score'] ?></td>
                                 <td><?= $value['timeRecord'] ?></td>
                             </tr>
