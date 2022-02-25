@@ -1,4 +1,4 @@
-@import url('http://fonts.cdnfonts.com/css/common-pixel');
+@import url('https://fonts.cdnfonts.com/css/common-pixel');
 
 body {
   background-color: greenyellow !important;
@@ -35,6 +35,19 @@ table.leaderboard th,
 table.leaderboard td {
   border: 3px solid green;
 }
+
+.leaderboard td:first-child,
+.leaderboard th:first-child {
+  width: 20px;
+}
+.leaderboard td:nth-child(3),
+.leaderboard th:nth-child(3) {
+  width: 70px;
+}
+.leaderboard td:nth-child(4),
+.leaderboard th:nth-child(4) {
+  width: 80px;
+}
 h1.gameOver {
   font-family: 'Common Pixel', sans-serif;
   color: greenyellow;
@@ -48,7 +61,21 @@ div.gameOverContainer {
   align-items: center;
   justify-content: center;
 }
-
+.selector {
+  background-color: rgba(128, 128, 128, 0.596);
+  position: fixed;
+  top: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header,
+header > * {
+  z-index: 101000;
+}
 #addScoreForm {
   display: none;
 }
@@ -63,7 +90,37 @@ div.gameOverContainer {
 .textGreenYellow {
   color: greenyellow !important;
 }
+.btn-greenyellow {
+  border-color: greenyellow;
+  color: greenyellow;
+  background-color: green;
+}
 
+.btn-greenyellow:hover {
+  background-color: greenyellow !important;
+  color: green;
+}
 a.textGreenYellow:hover {
   color: rgb(100, 161, 9) !important;
+}
+
+.form-check-input:checked {
+  background-color: yellowgreen;
+  border-color: green;
+}
+.form-check-input:checked[type='radio'] {
+  background-image: none;
+}
+.error {
+  color: rgb(223, 53, 53);
+  padding: 0;
+  margin: 0;
+}
+
+a:hover {
+  color: rgb(100, 161, 9) !important;
+}
+a {
+  color: green;
+  text-decoration: none;
 }

@@ -1,12 +1,7 @@
 <?php
 function dbadd($table, $element1, $element2, $element3)
 {
-    date_default_timezone_set('Europe/Paris');
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "snake";
-
+    include 'dbinfo.php';
     try {
         $conn = new PDO(
             "mysql:host=$servername;dbname=$dbname",
@@ -15,18 +10,15 @@ function dbadd($table, $element1, $element2, $element3)
         );
         // set the PDO error mode to exception
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $query = "INSERT INTO $table (name, score, timeRecord,dateRecord) 
-        VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO $table(`name`, `score`, `timeRecord`, `dateRecord`) VALUES (?,?,?,now())";
 
         $sql = $conn->prepare($query);
 
         // use exec() because no results are returned
-        $sql->execute([$element1, $element2, $element3, date('d-m-y h:i:s')]);
-
-        return "New record created successfully";
+        $sql->execute([$element1, $element2, $element3]);
+        return true;
     } catch (PDOException $e) {
-        return $conn . "<br>" . $e->getMessage();
+        return false;
     }
-
-    $conn = null;
+    die;
 }

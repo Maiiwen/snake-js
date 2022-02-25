@@ -10,30 +10,41 @@ function getAllIndexes(arr, val) {
 let speed = 80;
 
 let Game = class Game {
-  snake = {
-    len: 0,
-    headX: 0,
-    headY: 0,
-    bodyX: [],
-    bodyY: [],
-  };
-
-  mice = {
-    posX: -1,
-    posY: -1,
-  };
-
-  constructor(gamesize, snakeLen, gameSpeed) {
+  constructor(gamesize, snakeLen, mode) {
+    this.snake = {};
+    this.mice = {};
+    this.snake.len = 0;
+    this.snake.headX = 0;
+    this.snake.headY = 0;
+    this.snake.bodyX = [];
+    this.snake.bodyY = [];
+    this.mice.posX = -1;
+    this.mice.posY = -1;
     this.gamesize = gamesize;
     this.snake.len = snakeLen;
     this.score = snakeLen;
-    this.gameSpeed = gameSpeed;
-  }
+    this.mode = mode;
 
-  tableEl = document.querySelector('#game');
-  gamesize = 50;
-  movX = 0;
-  movY = 0;
+    switch (this.mode) {
+      case 'easy':
+        this.gameSpeed = 150;
+        break;
+      case 'normal':
+        this.gameSpeed = 80;
+        break;
+      case 'hard':
+        this.gameSpeed = 60;
+        break;
+      case 'hardcore':
+        this.gameSpeed = 25;
+        break;
+    }
+
+    this.tableEl = document.querySelector('#game');
+    this.gamesize = 50;
+    this.movX = 0;
+    this.movY = 0;
+  }
 
   constructTable() {
     let table = [];
@@ -132,9 +143,10 @@ let Game = class Game {
       } else if (this.movX !== 0 || this.movY !== 0) {
         clearInterval(this.gameInterval);
         console.log('gameOver');
+        this.timeStop = new Date();
+        this.logScore();
         this.gameOverInterval = setInterval(() => {
           // console.log(this.movX, this.movY);
-          this.logScore();
           this.gameOver();
         }, this.gameSpeed);
       }
@@ -166,33 +178,88 @@ let Game = class Game {
       this.moveSnake(this.movX, this.movY);
     }, this.gameSpeed);
   }
+  getStartTime() {
+    if (typeof this.timeStart === 'undefined') {
+      this.timeStart = new Date();
+      console.log(this.timeStart);
+    }
+  }
 
   logScore() {
     document.querySelector('#addScoreForm').style.display = 'block';
-    document.querySelector('#hiddenInput').value = this.score;
+    document.querySelector('#hiddenInput1').value = this.score;
+    let time =
+      (this.timeStop.getTime() - snakeClass.timeStart.getTime()) / 1000;
+    console.log(time);
+    document.querySelector('#hiddenInput2').value = time;
+    document.querySelector('#hiddenInput3').value = this.mode;
   }
 };
-snakeClass = new Game(50, 5, speed);
-snakeClass.init();
-document.body.addEventListener('keydown', function (e) {
-  switch (e.keyCode) {
-    case 37:
-      snakeClass.movX = 0;
-      snakeClass.movY = -1;
-      break;
-    case 38:
-      snakeClass.movY = 0;
-      snakeClass.movX = -1;
-      break;
-    case 39:
-      snakeClass.movX = 0;
-      snakeClass.movY = 1;
-      break;
-    case 40:
-      snakeClass.movY = 0;
-      snakeClass.movX = 1;
-      break;
-    default:
-      break;
+
+function startGame(mode) {
+  snakeClass = new Game(50, 5, mode);
+  snakeClass.init();
+  document.body.addEventListener('keydown', function (e) {
+    snakeClass.getStartTime();
+
+    switch (e.keyCode) {
+      case 37:
+        snakeClass.movX = 0;
+        snakeClass.movY = -1;
+        break;
+      case 38:
+        snakeClass.movY = 0;
+        snakeClass.movX = -1;
+        break;
+      case 39:
+        snakeClass.movX = 0;
+        snakeClass.movY = 1;
+        break;
+      case 40:
+        snakeClass.movY = 0;
+        snakeClass.movX = 1;
+        break;
+      default:
+        break;
+    }
+  });
+}
+let playerName = document.querySelector('#playerName');
+let modeBtn = document.querySelector('#start');
+let addScoreButton = document.querySelector('#addScore');
+
+addScoreButton.addEventListener('click', function () {
+  if (playerName.value.length < 49 && playerName.value.length > 2) {
+    addScoreButton.style.display = 'none';
+    document
+      .querySelector('#addScore')
+      .parentElement.parentElement.parentElement.submit();
+    addScoreButton.remove();
   }
 });
+modeBtn.addEventListener('click', function () {
+  startGame(document.querySelector('input[name="gameMode"]:checked').value);
+  document.querySelector('.selector').remove();
+});
+
+playerName.addEventListener('input', function () {
+  if (playerName.value.length < 50 && playerName.value.length > 2) {
+    playerName.nextElementSibling.style.display = 'none';
+  } else {
+    playerName.nextElementSibling.style.display = 'inline';
+  }
+});
+
+window.addEventListener(
+  'keydown',
+  function (e) {
+    if (
+      ['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(
+        e.code
+      ) > -1
+    ) {
+      e.preventDefault();
+    }
+  },
+  false
+);

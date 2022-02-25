@@ -11,14 +11,17 @@ if (isset($_GET['p'])) {
       include_once 'pages/index.php';
       break;
     case 'addscore':
-      var_dump($_POST);
-      if (isset($_POST['hiddenInput']) && isset($_POST['playerName'])) {
+      if (isset($_POST['hiddenInput1']) && isset($_POST['hiddenInput2']) && isset($_POST['playerName']) && isset($_POST['hiddenInput3'])) {
         include 'function/dbAdd.php';
-        echo dbadd('normal', $_POST['hiddenInput'], $_POST['playerName'], '0');
-        echo "done";
+        if (dbadd($_POST['hiddenInput3'], $_POST['playerName'], $_POST['hiddenInput1'], $_POST['hiddenInput2']) !== false) {
+          header('Location: success');
+        };
       } else {
-        echo "notdone";
+        echo "<br><br><br>ERROR";
       }
+      break;
+    case 'success':
+      include 'pages/success.php';
       break;
     default:
       include 'pages/404.php';
@@ -29,6 +32,6 @@ if (isset($_GET['p'])) {
 }
 ?>
 
-<script src="scripts/script.js"></script>
+
 
 <?php include 'includes/bottom.php' ?>
